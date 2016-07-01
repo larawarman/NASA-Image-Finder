@@ -59,24 +59,28 @@ function getRandomInt(min, max) {
 }
 
 function nextImage() {
-  updatePreviousImages();
+  //add this bg image to previous images
+  updatePreviousImages(photoToGet);
   //select a new random image    
   photoToGet = getRandomInt(0, photoArr.length);
   getMainImage(photoToGet);
 }
 
-function updatePreviousImages() {
+function updatePreviousImages(imgIndex) {
   var imgURL = getImageURL(currentImg, 't');
   var li = document.createElement("li");
   var img = document.createElement("img");
   img.setAttribute('src', imgURL);
   img.setAttribute('data-index', photoToGet);
+  img.addEventListener('click', function() {
+    showImageAgain(imgIndex);
+  });
   li.appendChild(img);
   document.getElementById('previous-images').appendChild(li);
 }
 
-function showImageAgain(currentImg) {
-  console.log(currentImg);
+function showImageAgain(photoToGet) {
+  getMainImage(photoToGet);
 }
 
 function getMainImage(imgIndex) {
