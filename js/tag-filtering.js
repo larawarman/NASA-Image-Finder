@@ -7,6 +7,22 @@
       });
 */
 
+//add a check to nextImage()
+
+/*
+//decide if the image should come from all or the filter
+  if (filterTags == false) {
+    photoToGet = getRandomInt(0, photoArr.length);
+    console.log('all images: ' + photoToGet);
+    // currentImg = photoArr[photoToGet];    
+  } else {
+    photoToGet = getRandomInt(0, filteredTagArr.length);    
+    console.log('filtered images: ' + photoToGet)
+  }
+*/
+
+var filteredTagArr = [];
+var filterTags = false;
 
 //limit all future images to a particular tag
 function limitToTag(tag) {

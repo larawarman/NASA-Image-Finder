@@ -11,8 +11,6 @@ var photoArr;
 var photoToGet;
 var currentImg;
 var imagesArr = [];
-var filteredTagArr = [];
-var filterTags = false;
 
 //AJAX request & data handling
 var flickrMethod = 'flickr.people.getPublicPhotos';
@@ -63,11 +61,7 @@ function getImageURL(image, size) {
 
 //decide which image to get and display it
 function getMainImage(imgIndex) {
-  if (filterTags == false) {
-    currentImg = photoArr[imgIndex];
-  } else {
-    currentImg = filteredTagArr[imgIndex];
-  }
+  currentImg = photoArr[imgIndex];
   //do all the things with that image
   setBG(getImageURL(currentImg, 'h'));
   getImageMeta(currentImg);
@@ -77,16 +71,8 @@ function getMainImage(imgIndex) {
 function nextImage() {
   //add this bg image to previous images
   updatePreviousImages(photoToGet);
-
-  //decide if the image should come from all or the filter
-  if (filterTags == false) {
-    photoToGet = getRandomInt(0, photoArr.length);
-    console.log('all images: ' + photoToGet);
-    // currentImg = photoArr[photoToGet];    
-  } else {
-    photoToGet = getRandomInt(0, filteredTagArr.length);    
-    console.log('filtered images: ' + photoToGet)
-  }
+  //get a new image
+  photoToGet = getRandomInt(0, photoArr.length);
   getMainImage(photoToGet);
 }
 
