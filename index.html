@@ -28,15 +28,20 @@
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div id="main-img" data-src="" class="image-container">
-      <!-- <div class="menu-toggle">
+    <div id="main-img" class="image-container">
+      <div class="menu-toggle">
         +
       </div>
       <div class="menu-container">
-        <input name="search" placeholder="Search... " />
-        <button id="submit-search">Search</button>
-        <p>meta info here</p>
-      </div> -->
+        <ul id="tags"></ul>
+        <h1 id="image-title"></h1>
+        <a id="download-link" href="" download="">Download this image</a>
+        <p>by NASA, <a href="https://creativecommons.org/licenses/by/2.0/legalcode"><i class="fa fa-creative-commons" aria-hidden="true"></i> Creative Commons</a> 
+        <ul id="previous-images"></ul>
+      </div>
+      <div class="next-image" onclick="nextImage()">
+        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+      </div>
 
     </div>
 
