@@ -31,13 +31,13 @@ xhr.onreadystatechange = function() {
     getMainImage(photoToGet);
 
     // preload all other images for future use
-    for (var i=0; i < photoArr.length; i++) {
-      var imgURL = getImageURL(photoArr[i], 'h');
-      imagesArr.push(imgURL);
-    }
-    for (var i=0; i < imagesArr.length; i++) {
-      preloadImage(imagesArr[i]);
-    }
+    // for (var i=0; i < photoArr.length; i++) {
+    //   var imgURL = getImageURL(photoArr[i], 'h');
+    //   imagesArr.push(imgURL);
+    // }
+    // for (var i=0; i < imagesArr.length; i++) {
+    //   preloadImage(imagesArr[i]);
+    // }
   }
 };
 
