@@ -1,7 +1,7 @@
 //TO DO
-//Add previously viewed
-//Re-show previously viewed image
-//Add filter by tags
+//Add in clear - test!
+//Add in active tag
+//Do not repeat images if they are in array
 //Fade in each image
 //Final styling (add transition to bg image)
 //Error states/loading state
@@ -12,6 +12,8 @@ var photoArr;
 var photoToGet;
 var currentImg;
 var imagesArr = [];
+var filteredTagArr = [];
+var filterTags = false;
 
 //AJAX request & data handling
 var flickrMethod = 'flickr.people.getPublicPhotos';
@@ -32,13 +34,13 @@ xhr.onreadystatechange = function() {
     getMainImage(photoToGet);
 
     //preload all other images for future use
-    for (var i=0; i < photoArr.length; i++) {
-      var imgURL = getImageURL(photoArr[i], 'h');
-      imagesArr.push(imgURL);
-    }
-    for (var i=0; i < imagesArr.length; i++) {
-      preloadImage(imagesArr[i]);
-    }
+    // for (var i=0; i < photoArr.length; i++) {
+    //   var imgURL = getImageURL(photoArr[i], 'h');
+    //   imagesArr.push(imgURL);
+    // }
+    // for (var i=0; i < imagesArr.length; i++) {
+    //   preloadImage(imagesArr[i]);
+    // }
   }
 };
 
@@ -49,23 +51,81 @@ function getImages(theurl) {
   xhr.send();
 }
 
-function preloadImage(url) {
-  var img=new Image();
-  img.src=url;
+//build the image url per flickr's guidelines
+function getImageURL(image, size) {
+  //attributes for building the img URL
+  var farmID = image.farm;
+  var serverID = image.server;
+  var imgID = image.id;
+  var secret = image.secret;
+  var imgURL = 'https://farm' + farmID + '.staticflickr.com/' + serverID + '/' + imgID + '_' + secret + '_' + size + '.jpg';
+  return imgURL;
 }
 
-function getRandomInt(min, max) {
-  return Math.round((Math.random() * (max - min) + min) - 1);
+//decide which image to get and display it
+//LARA THERE MIGHT BE AN EDGE CASE HERE
+function getMainImage(imgIndex) {
+  if (filterTags == false) {
+    currentImg = photoArr[imgIndex];
+  } else {
+    currentImg = filteredTagArr[imgIndex];
+  }
+  //do all the things with that image
+  setBG(getImageURL(currentImg, 'h'));
+  getImageMeta(currentImg);
 }
 
+//handle the new image button
 function nextImage() {
   //add this bg image to previous images
   updatePreviousImages(photoToGet);
-  //select a new random image    
-  photoToGet = getRandomInt(0, photoArr.length);
+
+  //decide if the image should come from all or the filter
+  if (filterTags == false) {
+    photoToGet = getRandomInt(0, photoArr.length);
+    console.log('all images: ' + photoToGet);
+    // currentImg = photoArr[photoToGet];    
+  } else {
+    photoToGet = getRandomInt(0, filteredTagArr.length);    
+    console.log('filtered images: ' + photoToGet)
+  }
   getMainImage(photoToGet);
 }
 
+//set the image as the background
+function setBG(imgURL) {
+  //set as bg image for main container
+  document.getElementById('main-img').style.backgroundImage="url(" + imgURL + ")";
+  //set as download link
+  document.getElementById('download-link').setAttribute('href', imgURL);
+}
+
+//get metadata about an image
+function getImageMeta(image) {
+  //set title
+  document.getElementById('image-title').innerHTML = image.title;
+  //clear previous tags
+  var tagEl = document.getElementById("tags");
+  while (tagEl.firstChild) {
+    tagEl.removeChild(tagEl.firstChild);
+  }
+  //set tags
+  if (image.tags !== "") {
+    var tagArr = image.tags.split(" ");
+    for (var i = 0; i < tagArr.length; i++) {
+      var li = document.createElement("li");
+      var thetag = tagArr[i];
+      li.setAttribute('id', thetag);
+      li.addEventListener('click', function() {
+        limitToTag(thetag);
+      });
+      li.appendChild(document.createTextNode(tagArr[i]));
+      document.getElementById('tags').appendChild(li);
+    }
+  }
+}
+
+//add the image to the previous images container
 function updatePreviousImages(imgIndex) {
   var imgURL = getImageURL(currentImg, 't');
   var li = document.createElement("li");
@@ -76,11 +136,13 @@ function updatePreviousImages(imgIndex) {
     showImageAgain(imgIndex);
   });
   li.appendChild(img);
-  ul = document.getElementById('previous-images');
+  var ul = document.getElementById('previous-images');
   ul.insertBefore(li, ul.childNodes[0]);
 }
 
+//show an image when clicked from the previous images container
 function showImageAgain(photoToGet) {
+  clearTags();
   getMainImage(photoToGet);
   //remove this image from previous images ul
   var dataIndexes = document.querySelectorAll('[data-index]');
@@ -100,45 +162,37 @@ function showImageAgain(photoToGet) {
   }
 }
 
-function getMainImage(imgIndex) {
-  currentImg = photoArr[imgIndex];
-  //do things with that image
-  setBG(getImageURL(currentImg, 'h'));
-  getImageMeta(currentImg);
-}
+//limit all future images to a particular tag
+function limitToTag(tag) {
+  //reset filter
+  filteredTagArr = [];
 
-function getImageURL(image, size) {
-  //attributes for building the img URL
-  var farmID = image.farm;
-  var serverID = image.server;
-  var imgID = image.id;
-  var secret = image.secret;
-  var imgURL = 'https://farm' + farmID + '.staticflickr.com/' + serverID + '/' + imgID + '_' + secret + '_' + size + '.jpg';
-  return imgURL;
-}
-
-function setBG(imgURL) {
-  //set as bg image for main container
-  document.getElementById('main-img').style.backgroundImage="url(" + imgURL + ")";
-  //set as download link
-  document.getElementById('download-link').setAttribute('href', imgURL);
-}
-
-function getImageMeta(image) {
-  //set title
-  document.getElementById('image-title').innerHTML = image.title;
-  //clear previous tags
-  var tagEl = document.getElementById("tags");
-  while (tagEl.firstChild) {
-    tagEl.removeChild(tagEl.firstChild);
-  }
-  //set tags
-  if (image.tags !== "") {
-    var tagArr = image.tags.split(" ");
-    for (var i = 0; i < tagArr.length; i++) {
-      var li = document.createElement("li");
-      li.appendChild(document.createTextNode(tagArr[i]));
-      document.getElementById('tags').appendChild(li);
+  for (var i=0; i < photoArr.length; i++) {
+    var tagArr = photoArr[i].tags.split(" ");
+    if (tagArr.indexOf(tag) > -1) {
+      filteredTagArr.push(photoArr[i]);
     }
   }
+  //add 'Now Showing', tag count, active styling
+  //var tagli = document.getElementById(tag);
+  
+  filterTags = true;
+  nextImage();
+}
+
+//clear the filtered view to draw from all images
+function clearTags() {
+  filterTags = false;
+  nextImage();
+}
+
+//preload images for faster display
+function preloadImage(url) {
+  var img=new Image();
+  img.src=url;
+}
+
+//random number generator
+function getRandomInt(min, max) {
+  return Math.round((Math.random() * (max - min) + min));
 }
