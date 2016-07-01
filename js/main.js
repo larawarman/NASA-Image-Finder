@@ -8,7 +8,6 @@
 var photoArr;
 var photoToGet;
 var currentImg;
-var imagesArr = [];
 var displayChrono = false;
 var pageReturn = 1;
 
@@ -29,15 +28,6 @@ xhr.onreadystatechange = function() {
     
     //make it the main image
     getMainImage(photoToGet);
-
-    // preload all other images for future use
-    // for (var i=0; i < photoArr.length; i++) {
-    //   var imgURL = getImageURL(photoArr[i], 'h');
-    //   imagesArr.push(imgURL);
-    // }
-    // for (var i=0; i < imagesArr.length; i++) {
-    //   preloadImage(imagesArr[i]);
-    // }
   }
 };
 
@@ -47,6 +37,7 @@ function getImages(theurl) {
   xhr.open('GET', theurl);
   xhr.send();
 }
+
 
 //build the image url per flickr's guidelines
 function getImageURL(image, size) {
@@ -59,6 +50,7 @@ function getImageURL(image, size) {
   return imgURL;
 }
 
+
 //decide which image to get and display it
 function getMainImage(imgIndex) {
   currentImg = photoArr[imgIndex];
@@ -67,23 +59,6 @@ function getMainImage(imgIndex) {
   getImageMeta(currentImg);
 }
 
-//handle the new image button
-function nextImage() {
-  //add this bg image to previous images
-  updatePreviousImages(photoToGet);
-  //get a new image
-  if (displayChrono == false) {
-    photoToGet = getRandomInt(0, photoArr.length);
-  }
-  else {
-    if(photoToGet === (photoArr.length - 1)) {
-      pageReturn++;
-      getImages('https://api.flickr.com/services/rest/?method=' + flickrMethod + '&api_key=' + flickrKey + '&user_id=' + flickrUser + '&page=' + pageReturn + '&extras=tags&format=json&nojsoncallback=1');
-    }
-    photoToGet++;
-  }
-  getMainImage(photoToGet);
-}
 
 //set the image as the background
 function setBG(imgURL) {
@@ -92,6 +67,7 @@ function setBG(imgURL) {
   //set as download link
   document.getElementById('download-link').setAttribute('href', imgURL);
 }
+
 
 //get metadata about an image
 function getImageMeta(image) {
@@ -114,6 +90,39 @@ function getImageMeta(image) {
     }
   }
 }
+
+
+//handle the next image button
+function nextImage() {
+  //add this bg image to previous images
+  updatePreviousImages(photoToGet);
+  //get a new image
+  if (displayChrono == false) {
+    photoToGet = getRandomInt(0, photoArr.length);
+  }
+  else {
+    if(photoToGet === (photoArr.length - 1)) {
+      pageReturn++;
+      getImages('https://api.flickr.com/services/rest/?method=' + flickrMethod + '&api_key=' + flickrKey + '&user_id=' + flickrUser + '&page=' + pageReturn + '&extras=tags&format=json&nojsoncallback=1');
+    }
+    photoToGet++;
+  }
+  getMainImage(photoToGet);
+}
+
+//open menu
+function openMenu() {
+  var menu = document.getElementById('menu-container');
+  var toggle = document.getElementById('rotate-icon');
+  if(menu.classList.contains('open')) {
+    menu.className="";
+    toggle.className="";
+  } else {
+    menu.className="open";
+    toggle.className="open";
+  }
+}
+
 
 //change the image order
 function displayRandom() {
@@ -174,24 +183,6 @@ function showImageAgain(photoToGet) {
   }
 }
 
-//open menu
-function openMenu() {
-  var menu = document.getElementById('menu-container');
-  var toggle = document.getElementById('rotate-icon');
-  if(menu.classList.contains('open')) {
-    menu.className="";
-    toggle.className="";
-  } else {
-    menu.className="open";
-    toggle.className="open";
-  }
-}
-
-//preload images for faster display
-function preloadImage(url) {
-  var img=new Image();
-  img.src=url;
-}
 
 //random number generator
 function getRandomInt(min, max) {
