@@ -76,11 +76,28 @@ function updatePreviousImages(imgIndex) {
     showImageAgain(imgIndex);
   });
   li.appendChild(img);
-  document.getElementById('previous-images').appendChild(li);
+  ul = document.getElementById('previous-images');
+  ul.insertBefore(li, ul.childNodes[0]);
 }
 
 function showImageAgain(photoToGet) {
   getMainImage(photoToGet);
+  //remove this image from previous images ul
+  var dataIndexes = document.querySelectorAll('[data-index]');
+  for (var i=0; i < dataIndexes.length; i++) {
+    var index = dataIndexes[i].getAttribute('data-index');
+    if (index == photoToGet) {
+      var parent = dataIndexes[i].parentNode;
+      if (dataIndexes[i].parentNode) {
+        //remove the image
+        dataIndexes[i].parentNode.removeChild(dataIndexes[i]);
+        if(parent.parentNode) {
+          //remove the parent li
+          parent.parentNode.removeChild(parent);
+        }
+      }
+    }
+  }
 }
 
 function getMainImage(imgIndex) {
