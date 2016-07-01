@@ -1,5 +1,4 @@
 //TO DO
-//Add in clear - test!
 //Add in active tag
 //Do not repeat images if they are in array
 //Fade in each image
@@ -63,7 +62,6 @@ function getImageURL(image, size) {
 }
 
 //decide which image to get and display it
-//LARA THERE MIGHT BE AN EDGE CASE HERE
 function getMainImage(imgIndex) {
   if (filterTags == false) {
     currentImg = photoArr[imgIndex];
@@ -116,9 +114,6 @@ function getImageMeta(image) {
       var li = document.createElement("li");
       var thetag = tagArr[i];
       li.setAttribute('id', thetag);
-      li.addEventListener('click', function() {
-        limitToTag(thetag);
-      });
       li.appendChild(document.createTextNode(tagArr[i]));
       document.getElementById('tags').appendChild(li);
     }
@@ -142,7 +137,6 @@ function updatePreviousImages(imgIndex) {
 
 //show an image when clicked from the previous images container
 function showImageAgain(photoToGet) {
-  clearTags();
   getMainImage(photoToGet);
   //remove this image from previous images ul
   var dataIndexes = document.querySelectorAll('[data-index]');
@@ -160,30 +154,6 @@ function showImageAgain(photoToGet) {
       }
     }
   }
-}
-
-//limit all future images to a particular tag
-function limitToTag(tag) {
-  //reset filter
-  filteredTagArr = [];
-
-  for (var i=0; i < photoArr.length; i++) {
-    var tagArr = photoArr[i].tags.split(" ");
-    if (tagArr.indexOf(tag) > -1) {
-      filteredTagArr.push(photoArr[i]);
-    }
-  }
-  //add 'Now Showing', tag count, active styling
-  //var tagli = document.getElementById(tag);
-  
-  filterTags = true;
-  nextImage();
-}
-
-//clear the filtered view to draw from all images
-function clearTags() {
-  filterTags = false;
-  nextImage();
 }
 
 //preload images for faster display
