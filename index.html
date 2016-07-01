@@ -28,25 +28,52 @@
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <div id="empty-page">
+      <div class="main-icon rocket-icon">
+        <span class="extra-info">loading...</span>
+        <i class="fa fa-rocket"></i>
+      </div>
+    </div>
     <div id="main-img" class="image-container">
-      <div class="menu-toggle">
-        +
+      <div id="title-area" class="main-icon">
+        <div id="nasa-logo"></div>
+        <a href="https://www.flickr.com/photos/gsfc/"><h1>NASA Images</h1></a>
       </div>
-      <div class="menu-container">
-        <ul id="tags"></ul>
-        <h1 id="image-title"></h1>
-        <a id="download-link" href="" download="">Download this image</a>
-        <p>by NASA, <a href="https://creativecommons.org/licenses/by/2.0/legalcode"><i class="fa fa-creative-commons" aria-hidden="true"></i> Creative Commons</a> 
-        <h2>Display Images:</h2>
-        <ul id="image-display">
-          <li id="display-random" class="active" onclick="displayRandom()">Randomly</li>
-          <li id="display-chronological" onclick="displayOrderly()">Chronologically</li>
-        </ul>
-        <ul id="previous-images"></ul>
+      <div id="next-image" class="main-icon" onclick="nextImage()">
+        <i class="fa fa-long-arrow-right"></i>
+        <span class="extra-info">next</span>
       </div>
-      <div class="next-image" onclick="nextImage()">
-        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+      <div id="menu-toggle" class="toggle-icon main-icon" onclick="openMenu()">
+        <span id="rotate-icon">+</span>
+        <span class="extra-info">more</span>
       </div>
+      <div id="menu-container">
+        <div class="menu-content">
+          <h1 id="image-title"></h1>
+          <p>by NASA</p>
+          <p><a href="https://creativecommons.org/licenses/by/2.0/legalcode" class="copyright"><i class="fa fa-creative-commons" aria-hidden="true"></i> Creative Commons</a></p>
+          <!-- <h2>Tags:</h2> -->
+          <ul id="tags">
+            <h2>Tags:</h2>
+          </ul>
+          <a id="download-link" href="" download="" class="btn">Download this image</a>
+          <ul id="image-display">
+            <h2>Display Images:</h2>
+            <li id="display-random" class="active" onclick="displayRandom()">
+              <span class="toggle">Random</span>
+            </li>
+            <li id="display-chronological" onclick="displayOrderly()">
+              <span class="toggle">In Order</span>
+            </li>
+          </ul>
+          <div id="prev-items">
+            <h2>Previously Viewed Images:</h2>
+            <ul id="previous-images">
+            </ul>
+          </div>
+        </div>
+      </div>
+
 
     </div>
 

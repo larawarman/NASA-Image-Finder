@@ -24,14 +24,13 @@ xhr.onreadystatechange = function() {
     var photos = JSON.parse(xhr.responseText);
     photoArr = photos.photos.photo;
     
-    console.log(photoArr);
     //select a random image    
     photoToGet = getRandomInt(0, photoArr.length);
     
     //make it the main image
     getMainImage(photoToGet);
 
-    preload all other images for future use
+    // preload all other images for future use
     for (var i=0; i < photoArr.length; i++) {
       var imgURL = getImageURL(photoArr[i], 'h');
       imagesArr.push(imgURL);
@@ -116,6 +115,7 @@ function getImageMeta(image) {
   }
 }
 
+//change the image order
 function displayRandom() {
   //change display to random
   displayChrono = false;
@@ -124,7 +124,6 @@ function displayRandom() {
   document.getElementById("display-random").className = "active";
   document.getElementById("display-chronological").className = "";
 }
-
 function displayOrderly() {
   //change display to chronological
   displayChrono = true;
@@ -137,6 +136,10 @@ function displayOrderly() {
 
 //add the image to the previous images container
 function updatePreviousImages(imgIndex) {
+  var prevItemsContainer = document.getElementById('prev-items');
+  if(prevItemsContainer.style.display != "block") {
+    prevItemsContainer.style.display = "block";
+  }
   var imgURL = getImageURL(currentImg, 't');
   var li = document.createElement("li");
   var img = document.createElement("img");
@@ -168,6 +171,19 @@ function showImageAgain(photoToGet) {
         }
       }
     }
+  }
+}
+
+//open menu
+function openMenu() {
+  var menu = document.getElementById('menu-container');
+  var toggle = document.getElementById('rotate-icon');
+  if(menu.classList.contains('open')) {
+    menu.className="";
+    toggle.className="";
+  } else {
+    menu.className="open";
+    toggle.className="open";
   }
 }
 

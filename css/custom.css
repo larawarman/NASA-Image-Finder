@@ -3,26 +3,69 @@ body, html {
   height: 100%;
   background-color: #1E2B33;
   font-family: 'Roboto', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.4;
   font-weight: 300;
   color: #E8EAEB;
+  letter-spacing: 2px;
 }
 
 ::-moz-selection {
-  background: #15418c;
+  background: #FC3D21;
   text-shadow: none;
 }
 
 ::selection {
-  background: #15418c;
+  background: #FC3D21;
   text-shadow: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin:0;
+}
+
+ul, li {
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+
+a, a:visited, a:active {
+  color: rgba(232,234,235,1.0);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: none;
+  color: rgba(232,234,235,0.7);
+  transition: color 0.3s ease;
+}
+
+a.btn {
+  display:block;
+  width: 96%;
+  padding: 10px 2%;
+  letter-spacing: 3px;
+  font-weight: 300;
+  text-transform: uppercase;
+  background: rgba(11,61,145,0.95);
+  border-radius:1px;
+  color: #E8EAEB;
+  text-decoration: none;
+  text-align: center;
+  font-weight:700;
+  font-size: 0.8em;
+  transition: color 0.3s ease;
+}
+a.btn:hover {
+  color: rgba(232,234,235,0.8);
+  background: rgba(11,61,145,0.8);
+  transition: all 0.3s ease;
 }
 
 .image-container {
   width: 100%;
   height: 100%;
-  background-color: black;
   background-size: cover;
   background-position: 50% 50%;
   opacity:1;
@@ -33,18 +76,261 @@ body, html {
   opacity: 0;
 }
 
-.menu-toggle {
-  font-weight: 100;
+#main-img {
+  z-index:100;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+}
+
+#main-img .main-icon {
+  opacity: 0;
+  transiton: opacity 0.2s ease;
+}
+
+#main-img:hover .main-icon {
+  opacity: 1;
+  transiton: opacity 0.2s ease;
+}
+.main-icon {
+  color: white;
+  font-weight: 300;
   font-size: 4em;
   line-height: 1.0;
-  padding: 20px 30px;
+  padding: 20px 30px 0;
+  text-shadow: 3px 3px 6px rgba(30,43,51,0.8);
+  cursor: pointer;
+  transiton: color 0.2s ease;
+}
+.main-icon:hover {
+  color: rgba(255,255,255,0.8);
+  transiton: color 0.2s ease;
+}
+.main-icon .extra-info {
+  font-weight: 100; 
+  font-size: 0.2em;
+  display:block;
+  text-transform: uppercase;
+}
+#rotate-icon {
+  display:inline-block;
+  -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 0.3s ease;
+    -ms-transition: -ms-transform 0.3s ease;
+      transiton: transform 0.3s ease;
+}
+#rotate-icon.open {
+  -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+  -webkit-transition: -webkit-transform 0.3s ease;
+    -ms-transition: -ms-transform 0.3s ease;
+      transiton: transform 0.3s ease;
+}
+#next-image {
+  position:absolute;
+  top:0;
+  right:0;
 }
 
-.menu-container {
-
+#title-area {
+  position: absolute;
+  right:0;
+  bottom:0;
+  font-size: 1em;
+  cursor: default;
+  background-color:rgba(30,43,51,0.8);
+  border-radius: 1px 0 0 0;
+  padding: 5px 10px;
+}
+#title-area h1 {
+  display:inline-block;
+  margin:0;
+  height: 58px;
+  vertical-align: middle;
+  margin-top:30px;
+}
+#title-area #nasa-logo {
+  width: 70px;
+  height: 58px;
+  display:inline-block;
+  background: url('../img/NASA_logo@1x.png') no-repeat;
+  vertical-align: middle;
 }
 
-.menu-toggle.open {
-
+#menu-container {
+  background-color: rgba(30,43,51,0.9);
+  max-width: 280px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  margin: 10px 20px 0;
+  max-height:0px;
+  transition: max-height 0.3s ease;
+}
+#menu-container .menu-content {
+  opacity:0;
+  transition: opacity 0.1s ease;
+}
+#menu-container.open {
+  height: auto;
+  max-height: calc(100% - 156px);
+  transition: max-height 0.3s ease;
+  overflow: scroll;
+}
+#menu-container.open .menu-content {
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }
 
+li {
+  display:inline-block;
+  margin: 5px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-weight: 100;
+  letter-spacing:2px;
+  text-align: left;
+  margin: 0 0 20px;
+}
+
+h2 {
+  padding-top:10px;
+  font-weight: 100;
+  font-size: 0.6em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+p {
+  margin: 5px 0;
+}
+
+a.copyright {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+ul#tags {
+  margin-top: 20px;
+}
+
+.toggle {
+  font-size:0.7em;
+  letter-spacing: 2px;
+}
+
+#download-link {
+  margin: 30px 0;
+}
+
+ul#image-display {
+  border-top: 1px solid rgba(232,234,235,0.1);
+}
+
+ul#image-display li {
+  margin:0 0 10px;
+  padding: 5px 0;
+  cursor: pointer;
+  color: rgba(232,234,235,0.5); 
+  border-bottom: 1px solid rgba(232,234,235,0.0);
+  transition: all 0.3s ease;
+}
+ul#image-display li:last-child {
+  margin-left: 20px;
+}
+ul#image-display li:hover {
+  color: rgba(232,234,235,1.0); 
+  border-bottom: 1px solid rgba(232,234,235,1.0);
+  transition: all 0.3s ease;
+}
+ul#image-display li.active {
+  color: rgba(232,234,235,1.0); 
+  border-bottom: 1px solid rgba(232,234,235,1.0);
+}
+ul#image-display li.active:hover {
+  color: rgba(232,234,235,1.0); 
+}
+
+#prev-items {
+  display:none;
+  border-top: 1px solid rgba(232,234,235,0.1);
+  margin: 30px 0 10px;
+}
+
+ul#previous-images {
+  text-align: center;
+}
+ul#previous-images li {
+  display:inline-block;
+  position: relative;
+  width: 46%;
+  height: 100px;
+  margin: 5px 2% 5px 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+ul#previous-images li:nth-child(even) {
+  width: 46%;
+  margin: 5px 0 5px 2%;
+}
+
+ul#previous-images li img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+  transition: height 0.2s ease;
+}
+
+ul#previous-images li img:hover {
+  height: 105%;
+  transition: height 0.2s ease;
+}
+
+#empty-page {
+  position:fixed;
+  width: 100%;
+  height:100%;
+  z-index: 0;
+}
+.rocket-icon {
+  position:absolute;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+  top: 50%;
+  left:50%;
+  min-height:108px;
+}
+
+.rocket-icon .extra-info {
+  margin-bottom:10px;
+}
+
+@media (max-width: 1024px) {
+  #main-img .main-icon {
+    opacity: 1;
+  }
+}
+
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) { 
+    /* Retina-specific stuff here */
+    #title-area #nasa-logo {
+      background-size: 70px 58px;
+      background-image: url('../img/NASA_logo@2x.png');
+    }
+}
