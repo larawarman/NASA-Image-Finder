@@ -1,5 +1,6 @@
 //TO DO
 //Add previously viewed
+//Re-show previously viewed image
 //Add filter by tags
 //Fade in each image
 //Final styling (add transition to bg image)
@@ -8,15 +9,14 @@
 
 //global variables
 var photoArr;
+var photoToGet;
 var currentImg;
 var imagesArr = [];
-var previousImagesArr = [];
 
 //AJAX request & data handling
 var flickrMethod = 'flickr.people.getPublicPhotos';
 var flickrUser = '24662369@N07';
 var flickrKey = '8bee05151906fe0ceda566182a16f1e4';
-var size = 'h';
 var xhr = new XMLHttpRequest();
 
 xhr.onreadystatechange = function() {
@@ -24,13 +24,18 @@ xhr.onreadystatechange = function() {
     //get the data if successful
     var photos = JSON.parse(xhr.responseText);
     photoArr = photos.photos.photo;
-    getMainImage();
-    //put all images into an array
+    
+    //select a random image    
+    photoToGet = getRandomInt(0, photoArr.length);
+    
+    //make it the main image
+    getMainImage(photoToGet);
+
+    //preload all other images for future use
     for (var i=0; i < photoArr.length; i++) {
-      var imgURL = getImageURL(photoArr[i], size);
+      var imgURL = getImageURL(photoArr[i], 'h');
       imagesArr.push(imgURL);
     }
-    //preload all images for future use
     for (var i=0; i < imagesArr.length; i++) {
       preloadImage(imagesArr[i]);
     }
@@ -54,18 +59,31 @@ function getRandomInt(min, max) {
 }
 
 function nextImage() {
-  getMainImage();
+  updatePreviousImages();
+  //select a new random image    
+  photoToGet = getRandomInt(0, photoArr.length);
+  getMainImage(photoToGet);
 }
 
-function getMainImage() {
-  //select a random image
-  var photoToGet = getRandomInt(0, photoArr.length);
-  currentImg = photoArr[photoToGet];
+function updatePreviousImages() {
+  var imgURL = getImageURL(currentImg, 't');
+  var li = document.createElement("li");
+  var img = document.createElement("img");
+  img.setAttribute('src', imgURL);
+  img.setAttribute('data-index', photoToGet);
+  li.appendChild(img);
+  document.getElementById('previous-images').appendChild(li);
+}
+
+function showImageAgain(currentImg) {
+  console.log(currentImg);
+}
+
+function getMainImage(imgIndex) {
+  currentImg = photoArr[imgIndex];
   //do things with that image
-  setBG(getImageURL(currentImg, size));
+  setBG(getImageURL(currentImg, 'h'));
   getImageMeta(currentImg);
-  //add number to viewed images array
-  previousImagesArr.push(currentImg);
 }
 
 function getImageURL(image, size) {
