@@ -1,9 +1,3 @@
-//TO DO
-//Fade in each image
-//Final styling (add transition to bg image)
-//Error states/loading state
-
-
 //global variables
 var photoArr;
 var photoToGet;
